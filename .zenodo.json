@@ -1,0 +1,70 @@
+{
+  "title": "fairfig: colour-blind-safe, journal-ready matplotlib figures",
+  "upload_type": "software",
+  "description": "<p>A matplotlib style and helper library that gives scientific figures one consistent, colour-blind-safe visual identity: Okabe-Ito hues ordered for colour-vision deficiency and set at distinct brightness levels (tested with a colour-blind reader), batlow and vik colour maps for ordered data, exact column widths for ACS, Elsevier and Nature, markers for experiment and lines for models, a bundled monospace font, SVG and PDF export, and built-in colour-blind and greyscale checks.</p>",
+  "creators": [
+    {
+      "name": "Usosky, Denis",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain",
+      "orcid": "0000-0002-6245-5110"
+    },
+    {
+      "name": "Latasa López, Juan Carlos",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain",
+      "orcid": "0009-0004-9312-544X"
+    },
+    {
+      "name": "Novoa Colas, Valery",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain",
+      "orcid": "0009-0009-7567-8012"
+    },
+    {
+      "name": "Belbasis, Aaron",
+      "affiliation": "Aurecon Australasia Pty Ltd, Melbourne, VIC, Australia"
+    },
+    {
+      "name": "Martín Martín, Juan Alberto",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain",
+      "orcid": "0000-0002-5158-0709"
+    },
+    {
+      "name": "García Algaba, Ana",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+    },
+    {
+      "name": "Rahim, Abdul",
+      "affiliation": "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "matplotlib",
+    "scientific figures",
+    "colour blindness",
+    "accessibility",
+    "Okabe-Ito",
+    "phase equilibria"
+  ],
+  "grants": [
+    {
+      "id": "10.13039/501100000780::101177949"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1038/s41467-020-19160-7",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "publication-article"
+    },
+    {
+      "identifier": "10.5281/zenodo.1243862",
+      "relation": "references",
+      "scheme": "doi",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "Developed within the AuSpire project with the support of IDOM Consulting, Engineering, Architecture S.A.U. Co-funded by the European Union under the Marie Skłodowska-Curie Grant Agreement No 101177949 (AuSpire). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the Research Executive Agency. Neither the European Union nor the granting authority can be held responsible for them. Licences: code and documentation MIT; the bundled Liberation Mono font SIL Open Font License 1.1; the batlow and vik colour maps (F. Crameri) MIT; the logos in assets/ are not covered by these licences."
+}

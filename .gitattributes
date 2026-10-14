@@ -1,0 +1,7 @@
+# Text files are stored with LF line endings; binaries are never converted.
+* text=auto eol=lf
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.png binary
+*.tif binary

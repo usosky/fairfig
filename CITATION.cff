@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+message: "If you use fairfig for figures in a publication, please cite it as below."
+title: "fairfig: colour-blind-safe, journal-ready matplotlib figures"
+type: software
+abstract: >-
+  A matplotlib style and helper library that gives scientific figures one consistent,
+  colour-blind-safe visual identity: Okabe-Ito hues ordered for colour-vision deficiency
+  and set at distinct brightness levels (tested with a colour-blind reader), batlow and
+  vik colour maps for ordered data, exact column widths for ACS, Elsevier and Nature,
+  markers for experiment and lines for models, a bundled monospace font, SVG and PDF
+  export, and built-in colour-blind and greyscale checks.
+authors:
+  - family-names: Usosky
+    given-names: Denis
+    orcid: "https://orcid.org/0000-0002-6245-5110"
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+  - family-names: Latasa López
+    given-names: Juan Carlos
+    orcid: "https://orcid.org/0009-0004-9312-544X"
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+  - family-names: Novoa Colas
+    given-names: Valery
+    orcid: "https://orcid.org/0009-0009-7567-8012"
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+  - family-names: Belbasis
+    given-names: Aaron
+    affiliation: "Aurecon Australasia Pty Ltd, Melbourne, VIC, Australia"
+  - family-names: Martín Martín
+    given-names: Juan Alberto
+    orcid: "https://orcid.org/0000-0002-5158-0709"
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+  - family-names: García Algaba
+    given-names: Ana
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+  - family-names: Rahim
+    given-names: Abdul
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+contact:
+  - family-names: Usosky
+    given-names: Denis
+    orcid: "https://orcid.org/0000-0002-6245-5110"
+    affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
+version: 1.2.0
+date-released: 2026-10-14
+license: MIT
+repository-code: "https://github.com/usosky/fairfig"
+keywords:
+  - matplotlib
+  - scientific figures
+  - colour blindness
+  - accessibility
+  - Okabe-Ito
+  - phase equilibria

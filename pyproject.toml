@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fairfig"
+version = "1.2.0"
+description = "Colour-blind-safe, journal-ready matplotlib figures with one consistent visual identity"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = [
+    "LICENSE",
+    "fairfig/LICENSE_crameri_colormaps.txt",
+    "fairfig/fonts/LICENSE_LiberationMono_OFL.txt",
+]
+authors = [
+    { name = "Denis Usosky" },
+    { name = "Juan Carlos Latasa López" },
+    { name = "Valery Novoa Colas" },
+    { name = "Aaron Belbasis" },
+    { name = "Juan Alberto Martín Martín" },
+    { name = "Ana García Algaba" },
+    { name = "Abdul Rahim" },
+]
+maintainers = [{ name = "Denis Usosky" }]
+dependencies = ["numpy>=1.21", "matplotlib>=3.7"]
+keywords = ["matplotlib", "scientific figures", "colour blindness", "accessibility",
+            "Okabe-Ito", "journal", "thermodynamics", "phase equilibria"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Matplotlib",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+[project.urls]
+Homepage = "https://github.com/usosky/fairfig"
+Issues = "https://github.com/usosky/fairfig/issues"
+
+[tool.setuptools]
+packages = ["fairfig"]
+
+[tool.setuptools.package-data]
+fairfig = ["*.mplstyle", "*.txt", "fonts/*"]
