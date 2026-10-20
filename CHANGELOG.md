@@ -1,22 +1,24 @@
 # Changelog
 
-## 1.2.0 — 2026-10-14
+## 1.2.0 — 2026-10-20
 
 First release on GitHub.
 
-- Palettes: `ff.use(palette=...)` picks the categorical colours.
-  `"A"` (default) is the 1.1 set; the colour-blind reader confirmed that it takes no
-  effort to tell its colours apart. `"B"` is fairfig 1.0 (published Okabe–Ito
-  values, fairfig order), so figures started with 1.0 can be finished with the
-  current package. `"C"` is Okabe–Ito in its published order, without black and
-  yellow. Long names: `"fairfig"`, `"fairfig-1.0"`, `"okabe-ito"`.
-- `ff.PALETTES` lists them; `check_palette()` and `swatches()` take a palette name;
+- Palettes: the 1.1 colours stay the default (`"fairfig"`); the colour-blind reader
+  confirmed that they take no effort to tell apart. `ff.use(palette="okabe-ito")`
+  switches to Okabe–Ito in its published order, without black and yellow.
+- `ff.PALETTES` lists both; `check_palette()` and `swatches()` take a palette name;
   `ff.C.<hue>` returns that hue in the active palette. The cookbook also writes
-  `palette_card_B` and `palette_card_C`.
+  `palette_card_okabe-ito`.
+- `band()` is transparent, so the grid shows through two-phase regions and uncertainty
+  bands; `along="y"` shades between two x limits (liquid-liquid regions).
+- `cvd_preview(fig, ncols=...)` lays the views out in one row if asked.
+- Shorter README with pictures: `examples/make_readme_images.py` makes
+  `docs/preview.png`, `gallery.png`, `palettes.png` and `cvd_check.png`.
 - Authors, citation and funding: seven authors from IDOM and Aurecon with ORCID iDs and
-  affiliations in `CITATION.cff`, `.zenodo.json` and the README; acknowledgement of the
-  AuSpire project (Marie Skłodowska-Curie Grant Agreement No 101177949) with the AuSpire
-  logo and the EU emblem in `assets/`, of IDOM's support, and of Lander Laparra and
+  affiliations in `CITATION.cff` and `.zenodo.json`; the README acknowledges them, the
+  AuSpire project (Marie Skłodowska-Curie Grant Agreement No 101177949, with the AuSpire
+  logo and the EU emblem in `assets/`), IDOM's support, Lander Laparra and
   Petro Pavliuchenko.
 
 ## 1.1.0 — 2026-10-02

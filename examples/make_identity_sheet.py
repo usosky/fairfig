@@ -127,7 +127,7 @@ y = p.para(X0, y, "White = contrast against white (≥ 3 is the ACS rule for gra
                   "OKLab ΔE×100 under deutan/protan simulation (Machado 2009): "
                   f"k = 2: {worst[2]:.1f}, {w35}, k = 6: {worst[6]:.1f}. Six series need "
                   "distinct marker shapes; more than six: split the panel or use a ramp. "
-                  "Alternatives: ff.use(palette='B' or 'C').",
+                  "Alternative: ff.use(palette='okabe-ito').",
            size=6.8)
 
 # ---- 2. neutrals ------------------------------------------------------------------
@@ -192,12 +192,12 @@ why = [
     "slots 1-3 keep >= 3:1 contrast on white. Blue and vermillion are darker than published "
     "Okabe-Ito (#0072B2, #D55E00): a colour-blind reader found vermillion and green hard to "
     "tell apart at equal brightness (1.13:1; now 1.60:1, confirmed effortless).",
-    "Liberation Mono (free, SIL OFL, bundled) keeps the BeautifulFigures monospace look with "
-    "Courier's letter widths. Elsevier names Courier among its standard fonts; ACS recommends "
+    "Liberation Mono (free, SIL OFL, bundled) is a monospace face with Courier's letter "
+    "widths. Elsevier names Courier among its standard fonts; ACS recommends "
     "Arial/Helvetica but only sets a 4.5 pt minimum; Nature requires sans-serif "
     "(ff.use('nature', font='Arial')).",
-    "Faint grid and outward ticks come from BeautifulFigures; grid lines are 0.5 pt (ACS "
-    "minimum line weight) in very light grey so they stay under the data.",
+    "Grid lines are 0.5 pt (ACS minimum line weight) in very light grey so they stay "
+    "under the data.",
     "batlow/vik (Crameri, Shephard & Heron, Nat. Commun. 11, 5444, 2020) are perceptually "
     "uniform and stay readable with CVD and in greyscale.",
     "Two-tone markers (fill + darker edge of the same hue) keep light hues visible on white.",

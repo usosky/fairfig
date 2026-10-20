@@ -120,7 +120,8 @@ ff.panel_labels([a, b])
 ff.save(fig, os.path.join(OUT, "fig2_Pxy_xy"))
 
 # %% Fig. 3 - binary LLE with UCST (single column)
-# Phase I (filled) and phase II (open) share colour; the two-phase region is tinted.
+# Phase I (filled) and phase II (open) share colour; the two-phase region is shaded
+# with a transparent band, so the grid stays visible.
 Tc, xc = 338.0, 0.45
 
 
@@ -137,7 +138,7 @@ eI, eII = binodal(Te)
 Tlit = np.array([300.0, 318.0])
 lI, lII = binodal(Tlit)
 fig, ax = ff.figure("single")
-ax.fill_betweenx(Tb, xI, xII, color=ff.tint(ff.C.blue, 0.10), lw=0, zorder=0.8)
+ff.band(ax, Tb, xI, xII, i=0, amount=0.10, along="y")   # two-phase region
 ax.plot(xI, Tb, **ff.curve(0), label="NRTL")
 ax.plot(xII, Tb, **ff.curve(0))
 ax.plot(eI + rng.normal(0, 0.005, Te.size), Te, **ff.points(0), label="Phase I")
@@ -226,7 +227,7 @@ ff.save(fig, os.path.join(OUT, "fig6_maps"))
 ff.check_palette()                                  # contrast + CVD distances (printed)
 card = ff.swatches()
 ff.save(card, os.path.join(OUT, "palette_card"))
-for p in ("B", "C"):                                # other palettes: ff.use("acs", palette="B")
-    ff.save(ff.swatches(p), os.path.join(OUT, f"palette_card_{p}"))
+card = ff.swatches("okabe-ito")                     # the alternative: ff.use("acs", palette="okabe-ito")
+ff.save(card, os.path.join(OUT, "palette_card_okabe-ito"))
 ff.cvd_preview(fig)                                 # shown in the notebook, not saved
 plt.show()

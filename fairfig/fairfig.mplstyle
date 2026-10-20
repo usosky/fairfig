@@ -9,8 +9,8 @@
 ##  Colours: Okabe-Ito hues, fixed order (blue, vermillion, bluish green, orange,
 ##  sky blue, reddish purple); blue and vermillion darkened so slots 1-3 differ
 ##  in brightness.  Never rainbow/jet.  Never colour alone: pair every colour
-##  with a marker shape or line style.  Other palettes (B: fairfig 1.0,
-##  C: Okabe-Ito as published) need ff.use(palette="B" | "C").
+##  with a marker shape or line style.  Okabe-Ito in its published order
+##  instead: ff.use(palette="okabe-ito").
 ## ============================================================================
 
 ## ---- Figure & export -------------------------------------------------------

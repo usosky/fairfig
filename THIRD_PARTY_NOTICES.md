@@ -14,7 +14,7 @@ Zenodo, doi:10.5281/zenodo.1243862; Crameri, F., Shephard, G. E. & Heron, P. J. 
 The misuse of colour in science communication, *Nat. Commun.* 11, 5444.
 
 The categorical colours are based on the Okabe–Ito palette (Okabe, M. & Ito, K. (2008)
-*Color Universal Design*; Wong, B. (2011) *Nat. Methods* 8, 441); palettes B and C use
-its published values, and the default palette A darkens its blue and vermillion. The
-colour-vision-deficiency simulation uses the matrices of Machado, Oliveira & Fernandes
-(2009) *IEEE TVCG* 15, 1291.
+*Color Universal Design*; Wong, B. (2011) *Nat. Methods* 8, 441): the `okabe-ito`
+palette uses its published values, and the default `fairfig` palette darkens its blue
+and vermillion. The colour-vision-deficiency simulation uses the matrices of Machado,
+Oliveira & Fernandes (2009) *IEEE TVCG* 15, 1291.

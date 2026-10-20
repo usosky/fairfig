@@ -4,7 +4,7 @@ fairfig - a colour-blind-safe visual identity for scientific figures (matplotlib
 
     import fairfig as ff
     ff.use("acs")                                   # or "elsevier", "nature"
-    # ff.use("acs", palette="B")                    # palettes "A" (default), "B", "C"
+    # ff.use("acs", palette="okabe-ito")            # Okabe-Ito in its published order
     fig, ax = ff.figure("single")                   # exact column width
     ax.plot(x_exp, T_exp, **ff.points(0))           # experiment: filled marker
     ax.plot(y_exp, T_exp, **ff.points(0, hollow=True))  # 2nd phase: open marker
@@ -18,8 +18,7 @@ Identity (v1.2)
               sky blue, reddish purple (Okabe & Ito 2008; Wong 2011, Nat.
               Methods 8, 441). Order chosen by computing CVD separation; blue
               and vermillion darkened so slots 1-3 also differ in brightness.
-              Other palettes: ff.use(palette="B") = fairfig 1.0 (published
-              Okabe-Ito values), palette="C" = Okabe-Ito in its published order.
+              Alternative: ff.use(palette="okabe-ito") = Okabe-Ito as published.
   ordered     batlow (sequential), vik (diverging) - Crameri, Nat. Commun.
               11, 5444 (2020). Never rainbow/jet.
   marks       experiment = markers, model = lines, filled/open = phase or
@@ -64,33 +63,29 @@ MM = 1 / 25.4  # inches per millimetre
 # 1. Colour
 # =============================================================================
 #: Categorical palettes, chosen with ff.use(palette=...): colours in slot order.
-#: All three use the same six Okabe-Ito hues, so ff.C.<hue> always exists.
+#: Both use the same six Okabe-Ito hues, so ff.C.<hue> always exists.
 PALETTES = {
-    # A (default) - fairfig. Blue and vermillion are darker than the published
+    # fairfig (default). Blue and vermillion are darker than the published
     # Okabe-Ito values: a colour-blind reader found vermillion and bluish green
     # hard to tell apart at equal brightness (1.13:1). Slots 1-3 now sit at three
     # brightness levels (pairwise 1.3-2.1:1), so they separate wherever hue is
     # lost: CVD, small markers, greyscale print. The reader confirmed it.
-    "A": dict(name="fairfig",
-              colors=["#005B90", "#BB4000", "#009E73", "#E69F00", "#56B4E9", "#CC79A7"],
-              names=["blue", "vermillion", "green", "orange", "sky", "purple"]),
-    # B - fairfig 1.0: published Okabe-Ito values in fairfig's CVD-optimised order.
-    "B": dict(name="fairfig-1.0",
-              colors=["#0072B2", "#D55E00", "#009E73", "#E69F00", "#56B4E9", "#CC79A7"],
-              names=["blue", "vermillion", "green", "orange", "sky", "purple"]),
-    # C - Okabe-Ito in its published order (Wong 2011), the most widely
-    # recommended colour-blind-safe palette. Its black stays reserved for text and
-    # models, its yellow for areas (1.3:1 on white: too faint for lines).
-    "C": dict(name="okabe-ito",
-              colors=["#E69F00", "#56B4E9", "#009E73", "#0072B2", "#D55E00", "#CC79A7"],
-              names=["orange", "sky", "green", "blue", "vermillion", "purple"]),
+    "fairfig": dict(
+        colors=["#005B90", "#BB4000", "#009E73", "#E69F00", "#56B4E9", "#CC79A7"],
+        names=["blue", "vermillion", "green", "orange", "sky", "purple"]),
+    # Okabe-Ito in its published order (Wong 2011), the most widely recommended
+    # colour-blind-safe palette. Its black stays reserved for text and models,
+    # its yellow for areas (1.3:1 on white: too faint for lines).
+    "okabe-ito": dict(
+        colors=["#E69F00", "#56B4E9", "#009E73", "#0072B2", "#D55E00", "#CC79A7"],
+        names=["orange", "sky", "green", "blue", "vermillion", "purple"]),
 }
 
 #: Named colours: the six hues of the active palette (ff.C.vermillion, ...) plus
 #: reserved colours, which never change.
 C = SimpleNamespace(
-    # categorical: set from the active palette (default A)
-    **dict(zip(PALETTES["A"]["names"], PALETTES["A"]["colors"])),
+    # categorical: set from the active palette (default fairfig)
+    **dict(zip(PALETTES["fairfig"]["names"], PALETTES["fairfig"]["colors"])),
     # reserved
     yellow="#F0E442",     # large areas/highlight fills only - never lines or markers
     black="#000000",      # text, axes, single reference model
@@ -103,8 +98,8 @@ C = SimpleNamespace(
     white="#FFFFFF",
 )
 #: Active palette, slot order (changed in place by ff.use(palette=...)).
-NAMES = list(PALETTES["A"]["names"])
-COLORS = list(PALETTES["A"]["colors"])
+NAMES = list(PALETTES["fairfig"]["names"])
+COLORS = list(PALETTES["fairfig"]["colors"])
 
 MARKERS = ["o", "s", "^", "D", "v", "p"]
 # size factors so every shape has roughly the same visual weight as the circle
@@ -133,7 +128,7 @@ _FONTS = ["Liberation Mono", "Courier New", "Courier", "Nimbus Mono PS",
 _FONT_DIR = os.path.join(os.path.dirname(__file__), "fonts")
 
 _STATE = dict(journal="acs", units="slash", frame="box", ticks="out", grid=True,
-              panel="a", fontsize=8.0, font="Liberation Mono", palette="A")
+              panel="a", fontsize=8.0, font="Liberation Mono", palette="fairfig")
 
 
 # ---------------------------------------------------------------- colour maths
@@ -198,14 +193,11 @@ INK = [ink(c) for c in COLORS]
 
 
 def _palette_key(palette):
-    """'A' / 'B' / 'C' (any case) or the long names 'fairfig', 'fairfig-1.0',
-    'okabe-ito' -> key of PALETTES."""
+    """'fairfig' or 'okabe-ito' (any case; '_' or ' ' for '-') -> key of PALETTES."""
     p = str(palette).strip().lower().replace("_", "-").replace(" ", "-")
-    for key, d in PALETTES.items():
-        if p in (key.lower(), d["name"]):
-            return key
-    opts = ", ".join(f"'{k}' ({d['name']})" for k, d in PALETTES.items())
-    raise ValueError(f"palette must be one of {opts}; got {palette!r}")
+    if p in PALETTES:
+        return p
+    raise ValueError(f"palette must be one of {list(PALETTES)}; got {palette!r}")
 
 
 def _set_palette(palette):
@@ -302,16 +294,14 @@ def _set_subscript_scale(scale):
         pass
 
 
-def use(journal="acs", *, palette="A", frame="box", ticks="out", grid=True,
+def use(journal="acs", *, palette="fairfig", frame="box", ticks="out", grid=True,
         units="slash", panel=None, fontsize=None, font=None, subscript=0.75):
     """Apply the identity.
 
     journal   'acs' | 'elsevier' | 'nature'  - widths and text size
     palette   categorical colours (see ff.PALETTES):
-              'A' fairfig (default) - three brightness levels in slots 1-3
-              'B' fairfig 1.0 - published Okabe-Ito values, fairfig order
-              'C' Okabe-Ito in its published order
-              long names work too: 'fairfig', 'fairfig-1.0', 'okabe-ito'
+              'fairfig' (default) - three brightness levels in slots 1-3
+              'okabe-ito' - Okabe-Ito in its published order
     frame     'box'  closed frame (default)  |  'open' left/bottom spines only
     ticks     'out'  outward, left/bottom (default)  |  'in' inward, all four sides
     grid      True: faint major + minor grid (minor added by ff.figure/ff.subplots)
@@ -488,12 +478,20 @@ def vline(ax, x=0.0, **kw):
     return ax.axvline(x, **d)
 
 
-def band(ax, x, y1, y2, i=None, color=None, amount=0.18, **kw):
-    """Shaded band (uncertainty, two-phase region): tint of slot i, or light grey."""
-    c = tint(color if color is not None else COLORS[i], amount) if (i is not None or color is not None) else C.grey_xlt
-    d = dict(color=c, lw=0, zorder=0.8)
+def band(ax, x, y1, y2, i=None, color=None, amount=0.18, along="x", **kw):
+    """Shaded band (uncertainty, two-phase region) in the colour of slot i, or
+    grey. Transparent (alpha = amount), so the grid shows through; on white it
+    looks like tint(colour, amount). along="y" shades between two x limits along
+    a vertical coordinate, e.g. ff.band(ax, T, x_I, x_II, i=0, along="y") for a
+    liquid-liquid two-phase region."""
+    if i is None and color is None:
+        c, a = C.grey, amount + 0.02           # grey 0.2 on white = #E6E6E6
+    else:
+        c, a = (color if color is not None else COLORS[i]), amount
+    d = dict(color=c, alpha=a, lw=0, zorder=0.8)
     d.update(kw)
-    return ax.fill_between(x, y1, y2, **d)
+    fill = ax.fill_betweenx if along == "y" else ax.fill_between
+    return fill(x, y1, y2, **d)
 
 
 def fraction_axis(ax, which="x", major=0.2, minor=0.1):
@@ -782,15 +780,17 @@ def simulate(rgb, kind):
     return to_hex(out.reshape(-1, 3)[0]) if single else out.reshape(np.shape(rgb)[:-1] + (3,))
 
 
-def cvd_preview(fig, kinds=("normal", "deutan", "protan", "tritan", "gray"), dpi=200):
+def cvd_preview(fig, kinds=("normal", "deutan", "protan", "tritan", "gray"), dpi=200,
+                ncols=None):
     """Render fig and show it as seen with deuteranopia, protanopia, tritanopia
-    and in greyscale. Returns the preview figure."""
+    and in greyscale. ncols panels per row (default up to 3). Returns the
+    preview figure; save it with the same dpi to keep it pixel for pixel."""
     buf = io.BytesIO()
     fig.savefig(buf, format="png", dpi=dpi)
     buf.seek(0)
     img = plt.imread(buf)[..., :3]
     h, w = img.shape[:2]
-    ncols = min(3, len(kinds))
+    ncols = int(ncols or min(3, len(kinds)))
     nrows = int(np.ceil(len(kinds) / ncols))
     title_h = 0.22
     prev = plt.figure(figsize=(ncols * w / dpi, nrows * (h / dpi + title_h)), layout="none")
@@ -819,7 +819,7 @@ def check_palette(colors=None, background="#FFFFFF", show=True):
     (dE < 15) also need bright >= 1.25, better 1.5, because colour-blind readers
     and small markers lose hue first and brightness last. (3:1 between data
     colours is out of reach for any 3 colours that also stand out on white.)
-    colors: list of colours, a palette name ('A', 'B', 'C'), or None = active."""
+    colors: list of colours, a palette name ('fairfig', 'okabe-ito'), or None = active."""
     if isinstance(colors, str):
         colors = PALETTES[_palette_key(colors)]["colors"]
     colors = list(colors or COLORS)
@@ -858,7 +858,7 @@ def check_palette(colors=None, background="#FFFFFF", show=True):
 def swatches(colors=None, names=None):
     """Quick palette card: each colour with its ink tone, hex, contrast and
     its appearance under deuteranopia, protanopia, tritanopia, greyscale.
-    colors: list of colours, a palette name ('A', 'B', 'C'), or None = active."""
+    colors: list of colours, a palette name ('fairfig', 'okabe-ito'), or None = active."""
     key = None
     if isinstance(colors, str):
         key = _palette_key(colors)
@@ -874,7 +874,7 @@ def swatches(colors=None, names=None):
     ax.set_ylim(len(colors), 0)
     ax.set_axis_off()
     if key:
-        ax.text(0.05, -0.15, f"palette {key} ({PALETTES[key]['name']})", ha="left",
+        ax.text(0.05, -0.15, f"palette: {key}", ha="left",
                 va="bottom", fontsize=6.5, fontweight="bold")
     for k, kind in enumerate(kinds):
         ax.text(4.2 + k * 1.16 + 0.5, -0.15, _KIND_TITLE[kind].split(" (")[0],

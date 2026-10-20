@@ -41,7 +41,7 @@ contact:
     orcid: "https://orcid.org/0000-0002-6245-5110"
     affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
 version: 1.2.0
-date-released: 2026-10-14
+date-released: 2026-10-20
 license: MIT
 repository-code: "https://github.com/usosky/fairfig"
 keywords:
