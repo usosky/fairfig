@@ -16,3 +16,11 @@ venv/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Tests, docs and tools
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+snapshot-results/
+site/

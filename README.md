@@ -1,21 +1,27 @@
 # fairfig
 
+[![PyPI](https://img.shields.io/pypi/v/fairfig?label=PyPI)](https://pypi.org/project/fairfig/)
+[![Tests](https://github.com/usosky/fairfig/actions/workflows/tests.yml/badge.svg)](https://github.com/usosky/fairfig/actions/workflows/tests.yml)
+[![DOI](https://zenodo.org/badge/1418777902.svg)](https://zenodo.org/badge/latestdoi/1418777902)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue)](https://github.com/usosky/fairfig/blob/main/LICENSE)
+
 <p>
-  <img src="assets/auspire-logo.png" alt="AuSpire" height="44">
+  <img src="https://raw.githubusercontent.com/usosky/fairfig/main/assets/auspire-logo.png" alt="AuSpire" height="44">
   &nbsp;&nbsp;&nbsp;
-  <img src="assets/eu-cofunded.png" alt="Co-funded by the European Union" height="44">
+  <img src="https://raw.githubusercontent.com/usosky/fairfig/main/assets/eu-cofunded.png" alt="Co-funded by the European Union" height="44">
 </p>
 
 **Colour-blind-safe, journal-ready figures with matplotlib.** One line of setup gives
 every figure in a paper the same look: colours that stay distinct for colour-blind
 readers, the exact column width of your journal, and editable SVG + PDF files.
+Documentation: **<https://usosky.github.io/fairfig/>**
 
-![p–x–y isotherms and an x–y diagram drawn with fairfig](docs/preview.png)
+![p–x–y isotherms and an x–y diagram drawn with fairfig](https://raw.githubusercontent.com/usosky/fairfig/main/docs/preview.png)
 
 ## Install
 
 ```bash
-pip install git+https://github.com/usosky/fairfig
+pip install fairfig
 ```
 
 ## Use
@@ -33,14 +39,14 @@ ff.legend(ax)                                    # key above the plot
 ff.save(fig, "figures/fig1")                     # fig1.svg + fig1.pdf
 ```
 
-The [cookbook](examples/demo_phase_equilibria.py) has ready recipes for T–x–y, p–x–y, x–y,
+The [cookbook](https://usosky.github.io/fairfig/cookbook/) has ready recipes for T–x–y, p–x–y, x–y,
 LLE, density, excess-volume, deviation and map figures:
 
-![Four figures from the cookbook](docs/gallery.png)
+![Four figures from the cookbook](https://raw.githubusercontent.com/usosky/fairfig/main/docs/gallery.png)
 
 ## Colour
 
-![The fairfig and Okabe–Ito palettes in normal vision, with deuteranopia, with protanopia and in greyscale](docs/palettes.png)
+![The fairfig and Okabe–Ito palettes in normal vision, with deuteranopia, with protanopia and in greyscale](https://raw.githubusercontent.com/usosky/fairfig/main/docs/palettes.png)
 
 The **fairfig** palette takes the Okabe–Ito hues and sets the first three colours at three
 brightness levels, so they stay apart for colour-blind readers, on small markers and in
@@ -52,7 +58,7 @@ shape. Ordered series and maps use the batlow and vik colour maps (`ff.ramp(n)`,
 Before you submit, see the figure the way colour-blind readers do with
 `ff.cvd_preview(fig)`:
 
-![An x–y diagram in normal vision, with deuteranopia, with protanopia and in greyscale](docs/cvd_check.png)
+![An x–y diagram in normal vision, with deuteranopia, with protanopia and in greyscale](https://raw.githubusercontent.com/usosky/fairfig/main/docs/cvd_check.png)
 
 ## Journals
 
@@ -64,17 +70,19 @@ Before you submit, see the figure the way colour-blind readers do with
 
 Text is set in the bundled Liberation Mono; Nature asks for a sans-serif face:
 `ff.use("nature", font="Arial")`. Submit the PDF and keep the SVG for editing. The full
-style guide is [`docs/identity_sheet.pdf`](docs/identity_sheet.pdf).
+style guide is the [identity sheet](https://github.com/usosky/fairfig/blob/main/docs/identity_sheet.pdf).
 
 ## Cite
 
-[github.com/usosky/fairfig](https://github.com/usosky/fairfig) (GitHub's "Cite this repository" gives the reference).
+Every release is archived on [Zenodo](https://zenodo.org/badge/latestdoi/1418777902) with a
+DOI. GitHub's "Cite this repository" gives the reference, with all authors
+([`CITATION.cff`](https://github.com/usosky/fairfig/blob/main/CITATION.cff)).
 
 ## Licence
 
 MIT © 2026 Denis Usosky. The bundled Liberation Mono font (SIL OFL 1.1) and batlow/vik
-colour maps (F. Crameri, MIT) keep their own licences ([notices](THIRD_PARTY_NOTICES.md));
-the logos in `assets/` are not covered. Release notes: [`CHANGELOG.md`](CHANGELOG.md).
+colour maps (F. Crameri, MIT) keep their own licences ([notices](https://github.com/usosky/fairfig/blob/main/THIRD_PARTY_NOTICES.md));
+the logos in `assets/` are not covered. Release notes: [`CHANGELOG.md`](https://github.com/usosky/fairfig/blob/main/CHANGELOG.md).
 
 ## Acknowledgements
 

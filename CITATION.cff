@@ -40,10 +40,11 @@ contact:
     given-names: Denis
     orcid: "https://orcid.org/0000-0002-6245-5110"
     affiliation: "IDOM Consulting, Engineering, Architecture S.A.U., Bilbao, Spain"
-version: 1.2.0
-date-released: 2026-10-20
+version: 1.3.0
+date-released: 2026-11-03
 license: MIT
 repository-code: "https://github.com/usosky/fairfig"
+url: "https://usosky.github.io/fairfig/"
 keywords:
   - matplotlib
   - scientific figures

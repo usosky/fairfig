@@ -300,7 +300,8 @@ y = p.para(X0, y, "Submit the PDF (ACS and Elsevier do not take SVG); keep the S
 
 # ---- 8. example at 1:1 ------------------------------------------------------------------------
 y = p.heading(y + 4, 8, "At 1:1 - two ACS single-column figures (84.6 x 67.7 mm)")
-exec(open(os.path.join(HERE, "_example_data.py")).read())   # xm, Tm, ym, xe, Te, ye, ...
+with open(os.path.join(HERE, "_example_data.py")) as fh:
+    exec(fh.read())                                # xm, Tm, ym, xe, Te, ye, ...
 
 
 def draw_txy(ax):

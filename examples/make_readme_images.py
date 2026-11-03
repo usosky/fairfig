@@ -1,6 +1,8 @@
-# %% README images -> docs/preview.png, gallery.png, palettes.png, cvd_check.png
-# Re-runs the cookbook without writing its files, rasterises its figures and
-# draws the palette and colour-vision cards. Run again after changing the identity.
+# %% README and documentation images -> docs/preview.png, gallery.png, palettes.png,
+# cvd_check.png and docs/img/<figure>.png
+# Re-runs the cookbook and the quick start without writing their files, rasterises
+# their figures and draws the palette and colour-vision cards. Run again after
+# changing the identity.
 import io
 import os
 import runpy
@@ -39,6 +41,7 @@ _save = ff.save
 ff.save = _capture
 try:
     runpy.run_path(os.path.join(HERE, "demo_phase_equilibria.py"), run_name="__main__")
+    runpy.run_path(os.path.join(HERE, "quickstart.py"), run_name="__main__")
 finally:
     ff.save = _save
 
@@ -62,6 +65,13 @@ for r, h in zip(tiles, row_h):
         x += im.width + GAP
     y += h + GAP
 gallery.save(os.path.join(DOCS, "gallery.png"), optimize=True)
+
+# %% 2b. Each figure on its own, for the documentation (docs/img/)
+IMG = os.path.join(DOCS, "img")
+os.makedirs(IMG, exist_ok=True)
+for name in ("quickstart", "fig1_Txy", "fig2_Pxy_xy", "fig3_LLE", "fig4_density_VE",
+             "fig5_deviations", "fig6_maps"):
+    figs[name].savefig(os.path.join(IMG, f"{name}.png"), dpi=150)
 
 # %% 3. The two palettes in normal vision, with CVD and in greyscale
 ff.use("acs")
@@ -93,7 +103,8 @@ fig.savefig(os.path.join(DOCS, "palettes.png"), dpi=200)
 
 # %% 4. What ff.cvd_preview(fig) shows, on the x-y diagram of three systems
 d = {}
-exec(open(os.path.join(HERE, "_example_data.py")).read(), d)     # xm, xe, YM, YE, S
+with open(os.path.join(HERE, "_example_data.py")) as fh:
+    exec(fh.read(), d)                            # xm, xe, YM, YE, S
 fig, ax = ff.figure(width=70, height=70)          # square panel, little white space
 ff.diagonal(ax)
 for name, i in d["S"].items():
@@ -107,4 +118,5 @@ ff.legend(ax)
 prev = ff.cvd_preview(fig, kinds=[k for k, _ in views], dpi=120, ncols=4)
 prev.savefig(os.path.join(DOCS, "cvd_check.png"), dpi=120)
 plt.close("all")
-print("wrote", ", ".join(f"docs/{n}.png" for n in ("preview", "gallery", "palettes", "cvd_check")))
+print("wrote", ", ".join(f"docs/{n}.png" for n in ("preview", "gallery", "palettes", "cvd_check")),
+      "and docs/img/")

@@ -1,0 +1,35 @@
+# Draws the snapshot figures with both FreeType versions and uploads them as
+# artifacts. Run it by hand after a deliberate change to the look: download
+# the two artifacts, unzip them into tests/baseline/, look at every image and
+# commit them (see tests/baseline/README.md).
+name: Snapshot baselines
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    name: FreeType ${{ matrix.freetype }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { freetype: "2.6", matplotlib: "3.10", python: "3.12" }
+          - { freetype: "2.14", matplotlib: "3.11", python: "3.13" }
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install ".[test]" "matplotlib==${{ matrix.matplotlib }}.*"
+      - run: pytest tests/test_snapshots.py --mpl-generate-path=baseline/freetype-${{ matrix.freetype }}
+      - uses: actions/upload-artifact@v7
+        with:
+          name: baselines-freetype-${{ matrix.freetype }}
+          path: baseline/
+          if-no-files-found: error

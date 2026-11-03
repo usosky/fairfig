@@ -1,0 +1,86 @@
+# Publishes fairfig to PyPI when a GitHub release is published (tag v1.2.3).
+# Zenodo archives the same release and gives it a DOI.
+#
+# 1. checks that the tag, fairfig.__version__ and CITATION.cff agree
+# 2. builds the sdist and wheel, and runs the test suite on the wheel
+# 3. uploads to PyPI with trusted publishing (no token: PyPI trusts this
+#    workflow; set up once on pypi.org, see CONTRIBUTING.md)
+#
+# Actions -> Release -> Run workflow does steps 1-2 only (a dry run).
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Tag, package version and CITATION.cff agree
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          python - <<'EOF'
+          import os, re
+          code = re.search(r'^__version__ = "([^"]+)"', open("fairfig/__init__.py").read(), re.M)[1]
+          cff = re.search(r"^version: *(\S+)", open("CITATION.cff").read(), re.M)[1]
+          tag = os.environ["TAG"].removeprefix("v") or code       # no tag in a dry run
+          print(f"tag {tag}, fairfig {code}, CITATION.cff {cff}")
+          if not tag == code == cff:
+              raise SystemExit("Set the same version in fairfig/__init__.py and CITATION.cff, "
+                               "then make the release again with the tag v<version>.")
+          EOF
+      - run: python -m pip install build twine
+      - run: python -m build
+      - run: python -m twine check --strict dist/*
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  test:
+    name: Test the wheel
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      FAIRFIG_REQUIRE_BASELINES: "1"
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+      - run: python -m pip install "$(ls dist/*.whl)[test]"
+      - run: pytest --mpl
+
+  publish:
+    name: Publish to PyPI
+    if: github.event_name == 'release'
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/fairfig/
+    permissions:
+      id-token: write      # trusted publishing
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1

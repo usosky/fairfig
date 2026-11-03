@@ -64,6 +64,7 @@ xm = np.linspace(0, 1, 201)                         # model grid
 xe = np.array([0.05, 0.12, 0.20, 0.31, 0.42, 0.53, 0.64, 0.75, 0.86, 0.94])  # "measured"
 
 # %% Fig. 1 - isobaric T-x-y (single column)
+# --8<-- [start:txy]
 # Experiment: filled = liquid x1, open = vapour y1 (same colour & shape);
 # model = line in the same colour; literature = grey open markers.
 Tm, ym = bubble_T(xm, P_ATM, "A + B")
@@ -86,8 +87,10 @@ ff.fraction_axis(ax, "x")
 ax.set(xlabel=ff.label("x_1, y_1"), ylabel=ff.label("T", "K"))
 ff.legend(ax, [h[k] for k in order], [l[k] for k in order])   # key above the plot
 ff.save(fig, os.path.join(OUT, "fig1_Txy"))                     # -> fig1_Txy.svg + .pdf
+# --8<-- [end:txy]
 
 # %% Fig. 2 - isotherms P-x-y (ordered -> ramp) + x-y for three systems (categorical)
+# --8<-- [start:pxy_xy]
 temps = [333.15, 353.15, 373.15]
 r = ff.ramp(len(temps))                             # dark -> light = low -> high T
 fig, (a, b) = ff.subplots(1, 2, width="double")
@@ -118,8 +121,10 @@ b.set(xlabel=ff.label("x_1"), ylabel=ff.label("y_1"))
 ff.legend(b)
 ff.panel_labels([a, b])
 ff.save(fig, os.path.join(OUT, "fig2_Pxy_xy"))
+# --8<-- [end:pxy_xy]
 
 # %% Fig. 3 - binary LLE with UCST (single column)
+# --8<-- [start:lle]
 # Phase I (filled) and phase II (open) share colour; the two-phase region is shaded
 # with a transparent band, so the grid stays visible.
 Tc, xc = 338.0, 0.45
@@ -151,8 +156,10 @@ ax.set(xlabel=ff.label("x_1"), ylabel=ff.label("T", "K"))
 h, l = ax.get_legend_handles_labels()
 ff.legend(ax, [h[k] for k in (1, 2, 0, 3)], [l[k] for k in (1, 2, 0, 3)])
 ff.save(fig, os.path.join(OUT, "fig3_LLE"))
+# --8<-- [end:lle]
 
 # %% Fig. 4 - density vs T (ordered compositions) + excess volume (ordered T)
+# --8<-- [start:density_ve]
 comps = [0.0, 0.25, 0.50, 0.75, 1.0]
 rc = ff.ramp(len(comps))
 T = np.linspace(288.15, 338.15, 11)
@@ -187,8 +194,10 @@ b.set(xlabel=ff.label("x_1"), ylabel=ff.label(r"V_\mathrm{m}^\mathrm{E}", "cm^3 
 ff.legend(b)
 ff.panel_labels([a, b])
 ff.save(fig, os.path.join(OUT, "fig4_density_VE"))
+# --8<-- [end:density_ve]
 
 # %% Fig. 5 - deviations (residuals) with an uncertainty band (single column)
+# --8<-- [start:deviations]
 fig, ax = ff.figure("single", aspect=0.62)
 ff.band(ax, [0, 1], -0.005, 0.005)                # +/- u(y1)
 ff.hline(ax, 0)
@@ -200,8 +209,10 @@ ax.set_ylim(-0.0125, 0.0125)
 ax.set(xlabel=ff.label("x_1"), ylabel=ff.label(r"y_1^\mathrm{exp} - y_1^\mathrm{calc}"))
 ff.legend(ax)
 ff.save(fig, os.path.join(OUT, "fig5_deviations"))
+# --8<-- [end:deviations]
 
 # %% Fig. 6 - maps: sequential (batlow) and diverging (vik, centred at zero)
+# --8<-- [start:maps]
 import matplotlib.colors as mcolors
 
 xg, Tg = np.meshgrid(np.linspace(0, 1, 121), np.linspace(288.15, 348.15, 121))
@@ -222,12 +233,15 @@ for ax_ in (a, b):
     ax_.set(xlabel=ff.label("x_1"), ylabel=ff.label("T", "K"))
 ff.panel_labels([a, b])
 ff.save(fig, os.path.join(OUT, "fig6_maps"))
+# --8<-- [end:maps]
 
 # %% Checks: palette numbers, palette card, and how the last figure looks with CVD
+# --8<-- [start:checks]
 ff.check_palette()                                  # contrast + CVD distances (printed)
 card = ff.swatches()
 ff.save(card, os.path.join(OUT, "palette_card"))
 card = ff.swatches("okabe-ito")                     # the alternative: ff.use("acs", palette="okabe-ito")
 ff.save(card, os.path.join(OUT, "palette_card_okabe-ito"))
 ff.cvd_preview(fig)                                 # shown in the notebook, not saved
+# --8<-- [end:checks]
 plt.show()
