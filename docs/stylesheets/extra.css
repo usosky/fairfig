@@ -1,0 +1,23 @@
+/* fairfig blue (#005B90) for the header and links; the sky blue (#56B4E9)
+   in dark mode, where the darker blue would be too faint. */
+:root > * {
+  --md-primary-fg-color: #005b90;
+  --md-primary-fg-color--light: #2a7bb0;
+  --md-primary-fg-color--dark: #013455;
+  --md-accent-fg-color: #bb4000;
+}
+
+[data-md-color-scheme="default"] {
+  --md-typeset-a-color: #005b90;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-typeset-a-color: #56b4e9;
+  --md-accent-fg-color: #e69f00;
+}
+
+/* figures are drawn on white: give them a frame in dark mode */
+[data-md-color-scheme="slate"] .md-typeset img {
+  border-radius: 4px;
+  background: #ffffff;
+}

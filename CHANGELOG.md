@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.3.0 — 2026-11-03
+
+First release on PyPI: `pip install fairfig`. Figures look the same as with 1.2.0.
+
+- **PyPI and DOI**: every GitHub release is published to PyPI automatically and archived
+  on Zenodo, which gives it a DOI.
+- **Documentation**: <https://usosky.github.io/fairfig/> with a user guide, the cookbook
+  and an API reference.
+- **Type hints** for the whole API, shipped with the package (`py.typed`) and checked
+  with mypy.
+- **Tests** on every push: unit tests and figure snapshots compared pixel by pixel, for
+  Python 3.9-3.14 with matplotlib 3.7-3.11, on Linux, Windows and macOS.
+- New examples: `quickstart.py`, `journals.py` (one figure for each journal preset) and
+  `check_colours.py` (the colour checks before submission).
+- Fixed: SVG files made with matplotlib 3.7-3.9 had no Courier New fallback, because
+  these versions write fonts as `font: 8px 'Liberation Mono'`.
+- Fixed: a Liberation Mono installed on the system no longer takes the place of the
+  bundled one, so every computer draws the same glyphs.
+- `ff.colorbar()` for a mappable that is not drawn on axes now asks for `ax=` instead
+  of failing with an `AttributeError`.
+
 ## 1.2.0 — 2026-10-20
 
 First release on GitHub.

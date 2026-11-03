@@ -1,0 +1,90 @@
+# Unit tests and figure snapshots for every supported Python and matplotlib
+# version, plus lint, type check and a package build. Runs on every push and
+# pull request; to run it by hand: Actions -> Tests -> Run workflow.
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: py${{ matrix.python }} mpl${{ matrix.matplotlib }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental == true }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # oldest supported: Python 3.9, matplotlib 3.7, NumPy 1.x
+          - { python: "3.9", matplotlib: "3.7", numpy: "<2", os: ubuntu-latest }
+          - { python: "3.10", matplotlib: "3.8", os: ubuntu-latest }
+          - { python: "3.11", matplotlib: "3.9", os: ubuntu-latest }
+          - { python: "3.12", matplotlib: "3.10", os: ubuntu-latest }
+          - { python: "3.12", matplotlib: "3.7", numpy: "<2", os: ubuntu-latest }
+          - { python: "3.13", matplotlib: "3.11", os: ubuntu-latest }
+          - { python: "3.14", matplotlib: "3.11", os: ubuntu-latest }
+          # other operating systems: same pixels expected
+          - { python: "3.13", matplotlib: "3.10", os: windows-latest }
+          - { python: "3.14", matplotlib: "3.11", os: windows-latest }
+          - { python: "3.14", matplotlib: "3.11", os: macos-latest }
+          # the next Python, ahead of its release
+          - { python: "3.15", matplotlib: "3.11", os: ubuntu-latest, experimental: true }
+    env:
+      FAIRFIG_REQUIRE_BASELINES: "1"     # a missing baseline folder is an error, not a skip
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          allow-prereleases: true
+      - name: Install fairfig with matplotlib ${{ matrix.matplotlib }}
+        # a regular (not editable) install: the tests import the installed package
+        run: python -m pip install ".[test]" "matplotlib==${{ matrix.matplotlib }}.*" "numpy${{ matrix.numpy }}"
+      - name: Versions
+        run: python -c "import sys, numpy, matplotlib as m, matplotlib.ft2font as f; print(sys.version); print('matplotlib', m.__version__, '| FreeType', f.__freetype_version__, '| NumPy', numpy.__version__)"
+      - name: Tests and figure snapshots
+        run: pytest --mpl --mpl-results-path=snapshot-results --mpl-generate-summary=html
+      - name: Upload snapshot differences
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: snapshot-diffs-py${{ matrix.python }}-mpl${{ matrix.matplotlib }}-${{ matrix.os }}
+          path: snapshot-results
+          if-no-files-found: ignore
+
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: python -m pip install ".[test]" "matplotlib==3.11.*" "mypy==2.4.*" "ruff==0.17.*"
+      - run: ruff check .
+      - run: mypy
+
+  package:
+    name: Build the package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: python -m pip install build twine
+      - run: python -m build
+      - name: Check the metadata and that the README renders on PyPI
+        run: python -m twine check --strict dist/*
+      - name: List the wheel
+        run: python -m zipfile -l dist/*.whl

@@ -1,0 +1,5 @@
+# The source distribution holds the package, its licences and notices. The tests
+# need the whole repository (examples, baseline images, release metadata), so they
+# stay on GitHub.
+include CHANGELOG.md CITATION.cff THIRD_PARTY_NOTICES.md
+prune tests

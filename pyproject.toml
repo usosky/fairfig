@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fairfig"
-version = "1.2.0"
+dynamic = ["version"]   # from fairfig.__version__
 description = "Colour-blind-safe, journal-ready matplotlib figures with one consistent visual identity"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -28,18 +28,71 @@ dependencies = ["numpy>=1.21", "matplotlib>=3.7"]
 keywords = ["matplotlib", "scientific figures", "colour blindness", "accessibility",
             "Okabe-Ito", "journal", "thermodynamics", "phase equilibria"]
 classifiers = [
-    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
     "Framework :: Matplotlib",
     "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Chemistry",
     "Topic :: Scientific/Engineering :: Visualization",
+    "Typing :: Typed",
 ]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "pytest-mpl>=0.17"]
+docs = ["mkdocs>=1.6", "mkdocs-material>=9.5", "mkdocstrings[python]>=0.26"]
 
 [project.urls]
 Homepage = "https://github.com/usosky/fairfig"
+Documentation = "https://usosky.github.io/fairfig/"
+Changelog = "https://github.com/usosky/fairfig/blob/main/CHANGELOG.md"
 Issues = "https://github.com/usosky/fairfig/issues"
 
 [tool.setuptools]
-packages = ["fairfig"]
+packages = ["fairfig", "fairfig.fonts"]   # fonts/: data only, no __init__.py
+
+[tool.setuptools.dynamic]
+version = { attr = "fairfig.__version__" }
 
 [tool.setuptools.package-data]
-fairfig = ["*.mplstyle", "*.txt", "fonts/*"]
+fairfig = ["*.mplstyle", "*.txt", "py.typed"]
+"fairfig.fonts" = ["*.ttf", "*.txt"]
+
+# ---------------------------------------------------------------- development
+[tool.pytest.ini_options]
+minversion = "7"
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers"]
+filterwarnings = [
+    "error",
+    # matplotlib <= 3.9 calls pyparsing names that pyparsing >= 3.3 deprecates
+    "ignore:'\\w+' deprecated - use '\\w+':UserWarning",
+    "ignore:'\\w+' argument is deprecated, use '\\w+':UserWarning",
+    # matplotlib 3.7 calls Image.fromarray(mode=...), which Pillow >= 11.3 deprecates
+    "ignore:'mode' parameter is deprecated:DeprecationWarning",
+]
+
+[tool.mypy]
+files = ["fairfig"]
+strict = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py39"
+extend-exclude = ["examples/output"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# cell-style scripts: imports after sys.path.insert, data defined by exec(),
+# short names, small lambdas
+"examples/*" = ["E402", "E731", "E741", "B007", "B023", "F821"]
+"tests/*" = ["E741"]
